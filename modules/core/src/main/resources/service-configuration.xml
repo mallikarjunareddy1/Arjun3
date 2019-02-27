@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:tx="http://www.springframework.org/schema/tx"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:www.Good.com-core.properties</value>
+        <value>classpath:www.Good.com-core.xml</value>
+        <value>file:${xillium.deployment.profile}/www.Good.com-core.properties</value>
+        <value>file:${xillium.deployment.profile}/www.Good.com-core.xml</value>
+      </list>
+    </property>
+    <property name="ignoreResourceNotFound" value="true"/>
+  </bean>
+
+
+  <!--
+  ** No transaction management
+  -->
+
+
+  <!--
+  ** Non-service beans
+  -->
+
+
+  <!--
+  ** Service beans
+  -->
+
+  <bean id="hello" class="Good.www.Good.com.core.Hello">
+  </bean>
+
+</beans>

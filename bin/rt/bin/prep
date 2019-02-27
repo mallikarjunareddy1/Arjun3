@@ -1,0 +1,14 @@
+#!/bin/sh
+
+. $HOME/.xilliumrc
+
+if [ -d ${CATALINA_BASE:-/usr/tomcat}/webapps-tomcat ]; then
+    echo Already prepared
+else
+    chmod +x ${CATALINA_HOME:-/usr/tomcat}/bin/*.sh
+    cd ${CATALINA_BASE:-/usr/tomcat}
+    mkdir -p webapps-tomcat
+    mv webapps/* webapps-tomcat
+    for d in `ls -1 ~/deployment|grep '\.war$'`; do ln -sf ~/deployment/$d webapps/`expr $d : '\([^-]*\)-.*'`.war; done
+    mkdir -p secured
+fi

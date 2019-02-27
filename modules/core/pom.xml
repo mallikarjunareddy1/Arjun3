@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>Good</groupId>
+  <artifactId>www.Good.com-core</artifactId>
+  <version>${global.version}</version>
+  <name>${project.groupId}:www.Good.com - ${project.parent.artifactId}:${project.artifactId}</name>
+
+  <parent>
+    <groupId>Good</groupId>
+    <artifactId>www.Good.com-modules</artifactId>
+    <version>1.0</version>
+  </parent>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Xillium-Domain-Name>${project.groupId}</Xillium-Domain-Name>
+              <Xillium-Module-Name>${project.artifactId}</Xillium-Module-Name>
+              <Xillium-Simple-Name>${xillium.module.name}</Xillium-Simple-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+  <!--
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>module-depended-by-current-module</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  -->
+  </dependencies>
+
+</project>

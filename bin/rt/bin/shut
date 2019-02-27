@@ -1,0 +1,9 @@
+#!/bin/sh
+
+. $HOME/.xilliumrc
+
+JAVA_OPTS= ${CATALINA_HOME:-/usr/tomcat}/bin/shutdown.sh > /dev/null 2>&1
+# wait indefinitely for Tomcat to exit
+while ps -e | grep java > /dev/null; do
+  sleep 1
+done

@@ -1,0 +1,48 @@
+#!/bin/sh
+
+. $HOME/.xilliumrc
+
+grab4tomcat() {
+  ps -ef|grep java|grep ${CATALINA_BASE}
+}
+
+# $1 = number of seconds to wait
+wait4tomcat() {
+  w=$1
+  while expr $w \> 0 > /dev/null && grab4tomcat > /dev/null; do
+    echo -n '.'
+    w=`expr $w - 1`
+    sleep 1
+  done
+  unset w
+}
+
+# wait for at most these seconds
+WAIT=16
+
+graceful() {
+    JAVA_OPTS= ${CATALINA_HOME:-/usr/tomcat}/bin/shutdown.sh > /dev/null 2>&1
+    wait4tomcat $WAIT
+}
+
+case $# in
+0) graceful
+   ;;
+1) if [ "$1" = "now" ]
+   then
+      echo -n immediately
+   else
+      echo "What ?"
+      exit
+   fi
+   ;;
+*) echo "What ?"
+   exit
+   ;;
+esac
+if grab4tomcat >/dev/null; then
+	echo -n " killing "
+	grab4tomcat|awk '{print $2}'|xargs -n 1 kill
+    wait4tomcat 1024
+fi
+echo

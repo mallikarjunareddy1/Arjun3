@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>Good</groupId>
+  <artifactId>www.Good.com-deploys</artifactId>
+  <packaging>pom</packaging>
+  <name>${project.groupId}:www.Good.com - ${project.artifactId}</name>
+
+  <parent>
+    <groupId>Good</groupId>
+    <artifactId>www.Good.com</artifactId>
+    <version>1.0</version>
+  </parent>
+
+  <modules>
+    <module>service</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <profiles>
+    <profile>
+      <activation>
+        <property><name>!env.XILLIUM_PORT</name></property>
+      </activation>
+      <properties>
+        <env.XILLIUM_PORT>9090</env.XILLIUM_PORT>
+      </properties>
+    </profile>
+  </profiles>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>8.1.5.v20120716</version>
+        <configuration>
+          <scanIntervalSeconds>2</scanIntervalSeconds>
+          <connectors>
+            <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+              <port>${env.XILLIUM_PORT}</port>
+              <maxIdleTime>60000</maxIdleTime>
+            </connector>
+          </connectors>
+          <stopPort>1${env.XILLIUM_PORT}</stopPort>
+          <stopKey>www.Good.com</stopKey>
+          <systemProperties>
+            <systemProperty>
+              <name>log4j.configuration</name>
+              <value>file:/log4j.properties</value>
+            </systemProperty>
+            <systemProperty>
+              <name>java.util.logging.config.class</name>
+              <value>org.xillium.base.etc.ClassPathLoggerConfiguration</value>
+            </systemProperty>
+            <systemProperty>
+              <name>xillium.deployment.profile</name>
+              <value>etc/conf</value>
+            </systemProperty>
+          </systemProperties>
+          <webAppConfig>
+            <contextPath>/${project.artifactId}</contextPath>
+          </webAppConfig>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+<!--
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.2.8</version>
+    </dependency>
+-->
+    <dependency>
+      <groupId>Good</groupId>
+      <artifactId>www.Good.com-commons</artifactId>
+      <version>${global.version}</version>
+    </dependency>
+  </dependencies>
+
+</project>
